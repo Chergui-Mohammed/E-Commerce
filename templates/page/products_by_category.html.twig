@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ category.name }} - Our Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    {% include 'partials/_navbar.html.twig' %}
+
+    <!-- Breadcrumb -->
+    <div class="container mt-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('app_categories') }}" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_categories') }}" class="text-decoration-none">Categories</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Jumbotron -->
+    <div class="container my-4">
+        <div class="p-5 mb-4 bg-{{ category.bootstrapColor }} bg-gradient text-white rounded-3">
+            <div class="container-fluid py-3">
+                <h1 class="display-4 fw-bold">{{ category.name }}</h1>
+                <p class="col-md-8 fs-5">{{ category.description }}</p>
+                <span class="badge bg-light text-dark fs-6">
+                    {{ products|length }} Product{{ products|length > 1 ? 's' : '' }} Available
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products by Category -->
+    <div class="container mb-5">
+        <div class="row mb-4">
+            <div class="col">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3>Browse {{ category.name }}</h3>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-secondary active">Grid</button>
+                        <button type="button" class="btn btn-outline-secondary">List</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for product in products %}
+            <div class="col">
+                <div class="card h-100">
+                    {% if product.image %}
+                    <img src="{{ asset('images/' ~ product.image) }}" class="card-img-top" alt="{{ product.name }}">
+                    {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <span class="text-muted">No image</span>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <span class="badge bg-{{ category.bootstrapColor }} mb-2">{{ category.name }}</span>
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text fw-bold text-success">${{ product.price }}</p>
+                        <a href="{{ path('app_product_details', {id: product.id}) }}" class="btn btn-outline-{{ category.bootstrapColor }}">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12">
+                <p class="text-muted text-center">No products in this category yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Our Store</h5>
+                    <p>Quality products at affordable prices</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>&copy; 2024 Our Store. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

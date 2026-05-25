@@ -1,0 +1,5 @@
+# CSRF protection for forms (classic token in hidden field)
+framework:
+    form:
+        csrf_protection:
+            token_id: submit
